@@ -157,7 +157,7 @@
     </section>
 
         <!-- Section 3: Integer Data Type -->
-        <<section  class="section">
+        <section class="section">
             <h2>3. Integer Data Type</h2>
             <?php
                 $positive = 42;
@@ -179,7 +179,7 @@
         </section>
 
         <!-- Section 4: Float Data Type -->
-        <div class="section">
+        <section class="section">
             <h2>4. Float (Double) Data Type</h2>
             <?php
                 $price = 19.99;
@@ -193,13 +193,15 @@
                 <p>Price: $<?php echo $price; ?></p>
                 <p>Pi: <?php echo $pi; ?></p>
                 <p>Negative: <?php echo $negativeFloat; ?></p>
-                <p>Scientific (1.2e3): <?php print $big; ?></p>
-                <p>Scientific (7.5e-2): <?php print $small; ?></p>
+                <p>Scientific (1.2e3): <?php print $big; ?>
+                 (as scientific: <?php printf("%.1e", $big); ?>)</p>
+                <p>Scientific (7.5e-2): <?php print $small; ?> 
+                (as scientific: <?php printf("%.1e", $small); ?>)</p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 5: Boolean Data Type -->
-        <div class="section">
+        <section class="section">
             <h2>5. Boolean Data Type</h2>
             <?php
                 $isActive = true;
@@ -216,10 +218,10 @@
                     <p class="success">✓ Welcome back! (Condition is true)</p>
                 <?php endif; ?>
             </div>
-        </div>
+        </section>
 
         <!-- Section 6: Array Data Type -->
-        <div class="section">
+        <section class="section">
             <h2>6. Array Data Type (Preview)</h2>
             <?php
                 $colors = ["red", "green", "blue"];
@@ -236,10 +238,10 @@
                 <h4>Associative Array:</h4>
                 <pre><?php print_r($person); ?></pre>
             </div>
-        </div>
+        </section>
 
         <!-- Section 7: NULL Data Type -->
-        <div class="section">
+        <section class="section">
             <h2>7. NULL Data Type</h2>
             <?php
                 $empty = null;
@@ -248,10 +250,10 @@
                 <h4>NULL Value:</h4>
                 <p>$empty: <?php var_dump($empty); ?></p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 8: Checking Data Types -->
-        <div class="section">
+        <section class="section">
             <h2>8. Checking Data Types</h2>
             <?php
                 $testString = "Hello";
@@ -281,10 +283,10 @@
                 <p>is_null(null): <strong><?php echo is_null($testNull) ? 'true' : 'false'; ?></strong></p>
                 <p>is_numeric("123"): <strong><?php echo is_numeric("123") ? 'true' : 'false'; ?></strong></p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 9: var_dump() and print_r() -->
-        <div class="section">
+        <section class="section">
             <h2>9. Debugging Functions</h2>
             <?php
                 $debugName = "John";
@@ -303,10 +305,10 @@
             <div class="output">
                 <pre><?php print_r($debugColors); ?></pre>
             </div>
-        </div>
+        </section>
 
         <!-- Section 10: String Concatenation -->
-        <div class="section">
+        <section class="section">
             <h2>10. String Concatenation</h2>
             <?php
                 $firstName = "John";
@@ -330,22 +332,22 @@
                 ?>
                 <p><?php echo $message; ?></p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 11: Type Juggling -->
-        <div class="section">
+        <section class="section">
             <h2>11. Type Juggling (Automatic Conversion)</h2>
             <?php
                 $stringNum = "10";
                 $result1 = $stringNum + 5;
                 $result2 = "Age: " . 25;
-                $result3 = "10 apples" + 5;
+                $result3 = (int)"10 apples" + 5; // Cast to int first to avoid warning in PHP 8+
             ?>
             <div class="output">
                 <h4>Automatic Type Conversion:</h4>
                 <p>"10" + 5 = <?php echo $result1; ?> (type: <?php echo gettype($result1); ?>)</p>
                 <p>"Age: " . 25 = <?php echo $result2; ?> (type: <?php echo gettype($result2); ?>)</p>
-                <p>"10 apples" + 5 = <?php echo $result3; ?> (type: <?php echo gettype($result3); ?>)</p>
+                <p>(int)"10 apples" + 5 = <?php echo $result3; ?> (type: <?php echo gettype($result3); ?>)</p>
             </div>
 
             <h3>Explicit Type Casting</h3>
@@ -360,10 +362,10 @@
                 <p>(float) "42" = <?php echo $floatValue; ?> (<?php echo gettype($floatValue); ?>)</p>
                 <p>(bool) "42" = <?php echo $boolValue ? 'true' : 'false'; ?> (<?php echo gettype($boolValue); ?>)</p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 12: Constants -->
-        <div class="section">
+        <section class="section">
             <h2>12. Constants</h2>
             <?php
                 define("SITE_NAME", "My Awesome Website");
@@ -386,10 +388,10 @@
                 <p>__FILE__ = <strong><?php echo __FILE__; ?></strong></p>
                 <p>__LINE__ = <strong><?php echo __LINE__; ?></strong></p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 13: Practice Example 1 -->
-        <div class="section">
+        <section class="section">
             <h2>13. Practice Example: Personal Information</h2>
             <?php
                 $profileName = "John Doe";
@@ -407,10 +409,10 @@
                 <h4>Debug Info:</h4>
                 <pre><?php var_dump($profileName, $profileAge, $profileHeight, $profileIsStudent); ?></pre>
             </div>
-        </div>
+        </section>
 
         <!-- Section 14: Practice Example 2 -->
-        <div class="section">
+        <section class="section">
             <h2>14. Practice Example: Shopping Cart</h2>
             <?php
                 $productName = "Wireless Mouse";
@@ -430,10 +432,10 @@
                     </span>
                 </p>
             </div>
-        </div>
+        </section>
 
         <!-- Section 15: Type Investigation Table -->
-        <div class="section">
+        <section class="section">
             <h2>15. Type Investigation Table</h2>
             <?php
                 $investigateValues = [
@@ -460,10 +462,10 @@
                 </tr>
                 <?php endforeach; ?>
             </table>
-        </div>
+        </section>
 
         <!-- Summary Table -->
-        <div class="section">
+        <section class="section">
             <h2>16. Key Takeaways Summary</h2>
             <table>
                 <tr>
@@ -507,13 +509,13 @@
                     <td><?php define("EX_CONST", "Value"); echo EX_CONST; ?></td>
                 </tr>
             </table>
-        </div>
+        </section>
 
-        <div class="section" style="text-align: center; background: #f8f9fa;">
+        <section class="section" style="text-align: center; background: #f8f9fa;">
             <p style="color: #666; font-size: 0.9em;">
                 <strong>Day 02 Complete!</strong> All examples executed with PHP <?php echo PHP_VERSION; ?>
             </p>
-        </div>
+        </section>
     </div>
 </body>
 </html>
