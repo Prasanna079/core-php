@@ -6,6 +6,30 @@ A structured 45-day PHP learning plan from fundamentals to building real-world a
 
 This repository contains my progress through a comprehensive PHP learning curriculum, culminating in a full CRUD project.
 
+## Progress Tracker
+
+### Completed Days
+- ✅ [Day 01](days/day-01) - Introduction to PHP
+- ✅ [Day 02](days/day-02) - Variables & Data Types
+- ✅ [Day 03](days/day-03) - Operators & Conditionals
+- ✅ [Day 04](days/day-04) - Loops in PHP
+- ✅ [Day 05](days/day-05) - Arrays in PHP
+- ✅ [Day 06](days/day-06) - Functions
+- ✅ [Day 07](days/day-07) - Advanced Functions
+- ✅ [Day 08](days/day-08) - Forms & GET/POST
+- ✅ [Day 09](days/day-09) - Form Validation
+- ✅ [Day 10](days/day-10) - Sanitization
+- ✅ [Day 11](days/day11) - File Handling
+- ✅ [Day 12](days/day12) - File Operations
+- ✅ [Day 13](days/day13) - File Uploads
+- ✅ [Day 14](days/day14) - Sessions
+- ✅ [Day 15](days/day15) - Cookies & Password Hashing
+- ✅ [Day 16](days/day16) - Database Fundamentals
+- ✅ [Day 17](days/day17) - SQL Basics
+- ✅ [Day 18](days/day18) - PHP-MySQL Connection
+- ✅ [Day 19](days/day19) - Prepared Statements
+- ✅ [Day 20](days/day20) - Pagination & Search
+
 ## Learning Plan Structure
 
 | Phase | Days | Topics |

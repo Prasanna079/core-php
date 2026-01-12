@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Setup Guide - PHP Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: #8892b0;
+            font-size: 1.1rem;
+        }
+
+        .quick-info {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #1f4068;
+        }
+
+        .quick-info h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .credentials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .credential-box {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .credential-box label {
+            display: block;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .credential-box span {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: #1f4068;
+            color: #8892b0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background: #2a5298;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #1f4068;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 3px solid #7b2cbf;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .step h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step p {
+            color: #8892b0;
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #0a0a1a;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin: 10px 0;
+            overflow-x: auto;
+            border: 1px solid #1f4068;
+            position: relative;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            color: #00d4ff;
+            font-size: 0.95rem;
+        }
+
+        .code-block .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 12px;
+            background: #1f4068;
+            border: none;
+            border-radius: 5px;
+            color: #8892b0;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .code-block .copy-btn:hover {
+            background: #2a5298;
+            color: #fff;
+        }
+
+        .code-block .copy-btn.copied {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .options {
+            margin: 15px 0;
+        }
+
+        .option {
+            background: rgba(123, 44, 191, 0.1);
+            border: 1px solid rgba(123, 44, 191, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .option-label {
+            color: #7b2cbf;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .url-box {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            margin: 5px 0;
+        }
+
+        .url-box a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .url-box a:hover {
+            text-decoration: underline;
+        }
+
+        .tables-section {
+            margin-top: 40px;
+        }
+
+        .tables-section h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .database-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .db-card {
+            background: linear-gradient(135deg, #1f4068 0%, #0f3460 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #2a5298;
+            transition: transform 0.3s ease;
+        }
+
+        .db-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .db-card h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .db-card ul {
+            list-style: none;
+        }
+
+        .db-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #8892b0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .db-card li:last-child {
+            border-bottom: none;
+        }
+
+        .db-card .count {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #00d4ff;
+        }
+
+        .troubleshooting {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #1f4068;
+        }
+
+        .troubleshooting h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-item {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .error-item h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .error-item ul {
+            list-style: none;
+            color: #8892b0;
+        }
+
+        .error-item li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .error-item li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+        }
+
+        .test-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #1f4068;
+        }
+
+        .test-section h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .php-code {
+            background: #0a0a1a;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            border: 1px solid #1f4068;
+        }
+
+        .php-code pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .php-keyword { color: #c678dd; }
+        .php-string { color: #98c379; }
+        .php-variable { color: #e06c75; }
+        .php-comment { color: #5c6370; }
+        .php-function { color: #61afef; }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #5c6370;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Database Setup Guide</h1>
+            <p>Complete setup instructions for PHP practice databases</p>
+        </header>
+
+        <section class="quick-info">
+            <h2>Quick Reference</h2>
+            <div class="credentials">
+                <div class="credential-box">
+                    <label>Username</label>
+                    <span>test</span>
+                </div>
+                <div class="credential-box">
+                    <label>Password</label>
+                    <span>test</span>
+                </div>
+                <div class="credential-box">
+                    <label>Host</label>
+                    <span>localhost</span>
+                </div>
+                <div class="credential-box">
+                    <label>Port</label>
+                    <span>3306</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('phpmyadmin')">
+                phpMyAdmin (Easiest)
+            </button>
+            <button class="tab-btn" onclick="showTab('mac')">
+                Mac Terminal
+            </button>
+            <button class="tab-btn" onclick="showTab('windows')">
+                Windows CMD
+            </button>
+        </div>
+
+        <!-- phpMyAdmin Tab -->
+        <div id="phpmyadmin" class="tab-content active">
+            <div class="step">
+                <h3><span class="step-number">1</span> Open phpMyAdmin</h3>
+                <p>Open your browser and go to one of these URLs based on your setup:</p>
+                <div class="url-box"><a href="http://localhost/phpmyadmin" target="_blank">XAMPP: http://localhost/phpmyadmin</a></div><br>
+                <div class="url-box"><a href="http://localhost:8888/phpmyadmin" target="_blank">MAMP: http://localhost:8888/phpmyadmin</a></div><br>
+                <div class="url-box"><a href="http://localhost/phpmyadmin" target="_blank">WAMP: http://localhost/phpmyadmin</a></div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span> Go to SQL Tab</h3>
+                <p>Click on the <strong>"SQL"</strong> tab at the top of the page</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span> Copy the SQL Script</h3>
+                <p>Open the file <code>setup_all_databases.sql</code> and copy all the SQL code starting from <code>CREATE USER</code></p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">4</span> Paste and Execute</h3>
+                <p>Paste the code into the SQL text box and click the <strong>"Go"</strong> button</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">5</span> Verify</h3>
+                <p>Check the left sidebar - you should see these databases:</p>
+                <ul style="color: #8892b0; margin-left: 20px;">
+                    <li>day17_practice</li>
+                    <li>day18_practice</li>
+                    <li>day19_practice</li>
+                    <li>day20_practice</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mac Tab -->
+        <div id="mac" class="tab-content">
+            <div class="step">
+                <h3><span class="step-number">1</span> Open Terminal</h3>
+                <p>Press <kbd>Cmd</kbd> + <kbd>Space</kbd>, type "Terminal", press Enter</p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span> Navigate to Project Folder</h3>
+                <div class="code-block">
+                    <code>cd /path/to/your/days</code>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span> Run the Script</h3>
+                <p>Choose ONE option based on your setup:</p>
+
+                <div class="options">
+                    <div class="option">
+                        <div class="option-label">Option A - MySQL root has NO password:</div>
+                        <div class="code-block">
+                            <code>mysql -u root < setup_all_databases.sql</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">Option B - MySQL root HAS a password:</div>
+                        <div class="code-block">
+                            <code>mysql -u root -p < setup_all_databases.sql</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <p style="color: #8892b0; font-size: 0.9rem;">Enter your root password when prompted</p>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">Option C - Using MAMP:</div>
+                        <div class="code-block">
+                            <code>/Applications/MAMP/Library/bin/mysql -u root -p < setup_all_databases.sql</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">Option D - Using Homebrew:</div>
+                        <div class="code-block">
+                            <code>/opt/homebrew/bin/mysql -u root -p < setup_all_databases.sql</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">4</span> Verify It Worked</h3>
+                <div class="code-block">
+                    <code>mysql -u test -ptest -e "SHOW DATABASES;"</code>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows Tab -->
+        <div id="windows" class="tab-content">
+            <div class="step">
+                <h3><span class="step-number">1</span> Open Command Prompt as Administrator</h3>
+                <p>Press <kbd>Windows</kbd> key, type "cmd", right-click and select <strong>"Run as administrator"</strong></p>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">2</span> Navigate to MySQL Folder</h3>
+                <p>Choose based on your setup:</p>
+
+                <div class="options">
+                    <div class="option">
+                        <div class="option-label">For XAMPP:</div>
+                        <div class="code-block">
+                            <code>cd C:\xampp\mysql\bin</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">For WAMP:</div>
+                        <div class="code-block">
+                            <code>cd C:\wamp64\bin\mysql\mysql8.0.31\bin</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <p style="color: #8892b0; font-size: 0.9rem;">Note: Version number may differ</p>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">For MySQL Installer:</div>
+                        <div class="code-block">
+                            <code>cd "C:\Program Files\MySQL\MySQL Server 8.0\bin"</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">3</span> Run the Script</h3>
+                <p>Choose ONE option:</p>
+
+                <div class="options">
+                    <div class="option">
+                        <div class="option-label">Option A - MySQL root has NO password:</div>
+                        <div class="code-block">
+                            <code>mysql -u root < "C:\path\to\days\setup_all_databases.sql"</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">Option B - MySQL root HAS a password:</div>
+                        <div class="code-block">
+                            <code>mysql -u root -p < "C:\path\to\days\setup_all_databases.sql"</code>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-label">Option C - Copy-Paste Method:</div>
+                        <ol style="color: #8892b0; margin-left: 20px;">
+                            <li>Open MySQL: <code>mysql -u root -p</code></li>
+                            <li>Open <code>setup_all_databases.sql</code> in Notepad</li>
+                            <li>Copy all the SQL code</li>
+                            <li>Right-click in command prompt to paste</li>
+                            <li>Press Enter</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3><span class="step-number">4</span> Verify It Worked</h3>
+                <div class="code-block">
+                    <code>mysql -u test -ptest -e "SHOW DATABASES;"</code>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Cards -->
+        <section class="tables-section">
+            <h2>What Gets Created</h2>
+            <div class="database-cards">
+                <div class="db-card">
+                    <h3>day17_practice</h3>
+                    <ul>
+                        <li>users <span class="count">5 records</span></li>
+                    </ul>
+                    <p style="color: #5c6370; font-size: 0.85rem; margin-top: 10px;">Basic CRUD operations</p>
+                </div>
+
+                <div class="db-card">
+                    <h3>day18_practice</h3>
+                    <ul>
+                        <li>users <span class="count">3 records</span></li>
+                        <li>products <span class="count">3 records</span></li>
+                    </ul>
+                    <p style="color: #5c6370; font-size: 0.85rem; margin-top: 10px;">Forms and validation</p>
+                </div>
+
+                <div class="db-card">
+                    <h3>day19_practice</h3>
+                    <ul>
+                        <li>contacts <span class="count">empty</span></li>
+                        <li>users <span class="count">empty</span></li>
+                    </ul>
+                    <p style="color: #5c6370; font-size: 0.85rem; margin-top: 10px;">Contact form & registration</p>
+                </div>
+
+                <div class="db-card">
+                    <h3>day20_practice</h3>
+                    <ul>
+                        <li>users <span class="count">30 records</span></li>
+                        <li>products <span class="count">25 records</span></li>
+                        <li>categories <span class="count">5 records</span></li>
+                        <li>orders <span class="count">15 records</span></li>
+                    </ul>
+                    <p style="color: #5c6370; font-size: 0.85rem; margin-top: 10px;">Full e-commerce practice</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="troubleshooting">
+            <h2>Troubleshooting</h2>
+
+            <div class="error-item">
+                <h4>"Access denied for user 'root'"</h4>
+                <ul>
+                    <li>Make sure MySQL is running</li>
+                    <li>Check your root password is correct</li>
+                    <li>Try without password: <code>mysql -u root</code></li>
+                </ul>
+            </div>
+
+            <div class="error-item">
+                <h4>"'mysql' is not recognized" (Windows)</h4>
+                <ul>
+                    <li>Navigate to MySQL bin folder first</li>
+                    <li>Or add MySQL to your system PATH</li>
+                </ul>
+            </div>
+
+            <div class="error-item">
+                <h4>"command not found: mysql" (Mac)</h4>
+                <ul>
+                    <li>Install via Homebrew: <code>brew install mysql</code></li>
+                    <li>Check MAMP/XAMPP installation</li>
+                </ul>
+            </div>
+
+            <div class="error-item">
+                <h4>"User 'test' already exists"</h4>
+                <ul>
+                    <li>This is OK! The script will continue</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Test Connection -->
+        <section class="test-section">
+            <h2>Test Your Connection</h2>
+            <p style="color: #8892b0; margin-bottom: 15px;">Create a file called <code>test_connection.php</code> with this code:</p>
+
+            <div class="php-code">
+                <pre><span class="php-keyword">&lt;?php</span>
+<span class="php-keyword">try</span> {
+    <span class="php-variable">$pdo</span> = <span class="php-keyword">new</span> <span class="php-function">PDO</span>(
+        <span class="php-string">"mysql:host=localhost;dbname=day20_practice;charset=utf8mb4"</span>,
+        <span class="php-string">"test"</span>,
+        <span class="php-string">"test"</span>
+    );
+    <span class="php-keyword">echo</span> <span class="php-string">"Connected successfully!"</span>;
+
+    <span class="php-comment">// Test query</span>
+    <span class="php-variable">$stmt</span> = <span class="php-variable">$pdo</span>-><span class="php-function">query</span>(<span class="php-string">"SELECT COUNT(*) as count FROM users"</span>);
+    <span class="php-variable">$result</span> = <span class="php-variable">$stmt</span>-><span class="php-function">fetch</span>();
+    <span class="php-keyword">echo</span> <span class="php-string">"\nUsers in database: "</span> . <span class="php-variable">$result</span>[<span class="php-string">'count'</span>];
+
+} <span class="php-keyword">catch</span> (<span class="php-function">PDOException</span> <span class="php-variable">$e</span>) {
+    <span class="php-keyword">echo</span> <span class="php-string">"Connection failed: "</span> . <span class="php-variable">$e</span>-><span class="php-function">getMessage</span>();
+}</pre>
+            </div>
+
+            <p style="color: #8892b0; margin-top: 20px;">Run it with: <code>php test_connection.php</code></p>
+            <p style="color: #28a745; margin-top: 10px;">Expected output: <code>Connected successfully! Users in database: 30</code></p>
+        </section>
+
+        <footer>
+            <p>PHP Practice - Database Setup Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const code = codeBlock.querySelector('code').textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

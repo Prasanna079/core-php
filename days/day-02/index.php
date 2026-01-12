@@ -7,7 +7,7 @@
     <style>
         * {
             margin: 0;
-            padding: 0;
+            padding: 0;x
             box-sizing: border-box;
         }
         body {
@@ -193,7 +193,7 @@
                 <p>Price: $<?php echo $price; ?></p>
                 <p>Pi: <?php echo $pi; ?></p>
                 <p>Negative: <?php echo $negativeFloat; ?></p>
-                <p>Scientific (1.2e3): <?php print $big; ?>
+                <p>Scientific (1.2e+3): <?php print $big; ?>
                  (as scientific: <?php printf("%.1e", $big); ?>)</p>
                 <p>Scientific (7.5e-2): <?php print $small; ?> 
                 (as scientific: <?php printf("%.1e", $small); ?>)</p>
@@ -210,9 +210,9 @@
             ?>
             <div class="output">
                 <h4>Boolean Values:</h4>
-                <p>$isActive: <?php echo $isActive ? 'true' : 'false'; ?></p>
-                <p>$isDeleted: <?php echo $isDeleted ? 'true' : 'false'; ?></p>
-                <p>$isLoggedIn: <?php echo $isLoggedIn ? 'true' : 'false'; ?></p>
+                <p>isActive: <?php echo $isActive ? 'true' : 'false'; ?></p>
+                <p>isDeleted: <?php echo $isDeleted ? 'true' : 'false'; ?></p>
+                <p>isLoggedIn: <?php echo $isLoggedIn ? 'true' : 'false'; ?></p>
                 
                 <?php if ($isLoggedIn): ?>
                     <p class="success">✓ Welcome back! (Condition is true)</p>

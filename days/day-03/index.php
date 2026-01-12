@@ -26,11 +26,11 @@
             padding: 30px;
             text-align: center;
         }
-        .section {
+        section {
             padding: 25px 30px;
             border-bottom: 2px solid #f0f0f0;
         }
-        .section h2 {
+        section h2 {
             color: #667eea;
             margin-bottom: 15px;
             border-bottom: 2px solid #667eea;
@@ -102,38 +102,40 @@
         </header>
 
         <!-- Section 1: Arithmetic Operators -->
-        <div class="section">
+        <section>
             <h2>1. Arithmetic Operators</h2>
             <?php
                 $a = 10;
                 $b = 3;
             ?>
-            <p>Using: <strong>$a = <?php echo $a; ?></strong> and <strong>$b = <?php echo $b; ?></strong></p>
+            <p>Using: <strong>$a = <?php print $a; ?></strong> and <strong>$b = <?php echo $b; ?>
+        </strong></p>
 
             <div class="result-grid">
                 <div class="result-item">
                     <strong>Addition <span class="operator">+</span></strong><br>
-                    $a + $b = <strong><?php echo $a + $b; ?></strong>
+                    $a + $b = <strong><?php print $a + $b; ?></strong>
                 </div>
                 <div class="result-item">
                     <strong>Subtraction <span class="operator">-</span></strong><br>
-                    $a - $b = <strong><?php echo $a - $b; ?></strong>
+                    $a - $b = <strong><?php print $a - $b; ?></strong>
                 </div>
                 <div class="result-item">
                     <strong>Multiplication <span class="operator">*</span></strong><br>
-                    $a * $b = <strong><?php echo $a * $b; ?></strong>
+                    $a * $b = <strong><?php print $a * $b; ?></strong>
                 </div>
                 <div class="result-item">
                     <strong>Division <span class="operator">/</span></strong><br>
-                    $a / $b = <strong><?php echo round($a / $b, 2); ?></strong>
+                    $a / $b = <strong><?php print round($a / $b, 2); ?></strong>
                 </div>
                 <div class="result-item">
                     <strong>Modulus <span class="operator">%</span></strong><br>
-                    $a % $b = <strong><?php echo $a % $b; ?></strong>
+                    $a % $b = <strong><?php print $a % $b; ?></strong>
                 </div>
                 <div class="result-item">
                     <strong>Exponent <span class="operator">**</span></strong><br>
-                    $a ** 2 = <strong><?php echo $a ** 2; ?></strong>
+                    $a ** 2 = <strong><?php print $a ** 2; ?></strong>
+                      $b ** 2 = <strong><?php print $b ** 2; ?></strong>
                 </div>
             </div>
 
@@ -141,15 +143,15 @@
             <div class="output">
                 <?php
                     $number = 7;
-                    echo "<p>\$number = $number</p>";
-                    echo "<p>$number % 2 = " . ($number % 2) . "</p>";
-                    echo "<p><strong>Result:</strong> $number is " . ($number % 2 == 0 ? "even" : "odd") . "</p>";
+                    print "<p>\$number = $number</p>";
+                    print "<p>$number % 2 = " . ($number % 2) . "</p>";
+                    print "<p><strong>Result:</strong> $number is " . ($number % 2 == 0 ? "even" : "odd") . "</p>";
                 ?>
             </div>
-        </div>
+        </section>
 
         <!-- Section 2: Comparison Operators -->
-        <div class="section">
+        <section>
             <h2>2. Comparison: == vs === </h2>
 
             <div class="warning-box">
@@ -159,18 +161,18 @@
             <div class="output">
                 <h4>Loose Comparison == (compares VALUE only):</h4>
                 <pre><?php
-                    echo "5 == \"5\"   → "; var_dump(5 == "5");
-                    echo "0 == false  → "; var_dump(0 == false);
-                    echo "null == false → "; var_dump(null == false);
+                    print "5 == \"5\"   → "; var_dump(5 == "5");
+                    print "0 == false  → "; var_dump(0 == false);
+                    print "null == false → "; var_dump(null == false);
                 ?></pre>
             </div>
 
             <div class="output">
                 <h4>Strict Comparison === (compares VALUE AND TYPE):</h4>
                 <pre><?php
-                    echo "5 === \"5\"  → "; var_dump(5 === "5");
-                    echo "5 === 5    → "; var_dump(5 === 5);
-                    echo "0 === false → "; var_dump(0 === false);
+                    print "5 === \"5\"  → "; var_dump(5 === "5");
+                    print "5 === 5    → "; var_dump(5 === 5);
+                    print "0 === false → "; var_dump(0 === false);
                 ?></pre>
             </div>
 
@@ -183,10 +185,10 @@
                 <tr><td><code>5 <= 3</code></td><td class="danger">false</td></tr>
                 <tr><td><code>5 != 3</code></td><td class="success">true</td></tr>
             </table>
-        </div>
+        </section>
 
         <!-- Section 3: Logical Operators -->
-        <div class="section">
+        <section>
             <h2>3. Logical Operators</h2>
 
             <table>
@@ -210,10 +212,10 @@
                     echo ($canDrive ? 'Yes' : 'No') . "</strong></p>";
                 ?>
             </div>
-        </div>
+        </section>
 
         <!-- Section 4: if/else/elseif -->
-        <div class="section">
+        <section>
             <h2>4. Conditional Statements</h2>
 
             <h3>The if Statement</h3>
@@ -261,10 +263,10 @@
                     echo "<p><strong>Grade:</strong> <span style='font-size: 1.5em; color: #28a745;'>$grade</span></p>";
                 ?>
             </div>
-        </div>
+        </section>
 
         <!-- Section 5: Ternary Operator -->
-        <div class="section">
+        <section>
             <h2>5. Ternary Operator</h2>
             <p><strong>Syntax:</strong> <code>condition ? value_if_true : value_if_false</code></p>
 
@@ -293,10 +295,10 @@
                     echo "<p>You have $items " . ($items === 1 ? "item" : "items") . " in your cart.</p>";
                 ?>
             </div>
-        </div>
+        </section>
 
         <!-- Section 6: Practice -->
-        <div class="section">
+        <section>
             <h2>6. Practice: Shopping Cart</h2>
             <?php
                 $itemPrice = 29.99;
@@ -317,10 +319,10 @@
                 <p>Tax (8%): $<?php echo number_format($tax, 2); ?></p>
                 <p><strong>Total: $<?php echo number_format($total, 2); ?></strong></p>
             </div>
-        </div>
+        </section>
 
         <!-- Key Takeaways -->
-        <div class="section" style="background: #f8f9fa;">
+        <section style="background: #f8f9fa;">
             <h2>Key Takeaways</h2>
             <ul style="padding-left: 20px;">
                 <li>Arithmetic: <code>+ - * / % **</code></li>
@@ -329,11 +331,11 @@
                 <li>Use <code>if/elseif/else</code> for conditions</li>
                 <li>Ternary <code>?:</code> is a shortcut for simple if-else</li>
             </ul>
-        </div>
+        </section>
 
-        <div class="section" style="text-align: center; padding: 15px;">
+        <section style="text-align: center; padding: 15px;">
             <p style="color: #666;">Day 03 - PHP <?php echo PHP_VERSION; ?></p>
-        </div>
+        </section>
     </div>
 </body>
 </html>

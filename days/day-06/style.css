@@ -1,0 +1,262 @@
+/* Day 05: Arrays in PHP - Shared Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #1e1e2e;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 40px;
+    color: white;
+}
+
+.header h1 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+.header p {
+    opacity: 0.9;
+    font-size: 1em;
+}
+
+.content {
+    padding: 30px 40px;
+}
+
+.section {
+    margin-bottom: 30px;
+    background: #252536;
+    border-radius: 12px;
+    padding: 20px 25px;
+    border-left: 4px solid #667eea;
+}
+
+.section h2 {
+    color: #667eea;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section h2::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #667eea;
+    border-radius: 50%;
+}
+
+.output {
+    background: #1a1a28;
+    border-radius: 8px;
+    padding: 15px 20px;
+    font-family: "Fira Code", "Consolas", "Monaco", monospace;
+    font-size: 0.9em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    color: #a0e0a0;
+    border: 1px solid #333;
+}
+
+.output .label {
+    color: #888;
+    font-size: 0.8em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.highlight {
+    color: #f8d866;
+}
+
+.string {
+    color: #98c379;
+}
+
+.number {
+    color: #d19a66;
+}
+
+.keyword {
+    color: #c678dd;
+}
+
+.comment {
+    color: #5c6370;
+    font-style: italic;
+}
+
+pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: #1a1a28;
+    border-top: 1px solid #333;
+}
+
+.nav a {
+    color: #667eea;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #252536;
+    transition: all 0.3s ease;
+}
+
+.nav a:hover {
+    background: #667eea;
+    color: white;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75em;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.badge-purple {
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+}
+
+.badge-green {
+    background: rgba(72, 187, 120, 0.2);
+    color: #48bb78;
+}
+
+.badge-orange {
+    background: rgba(237, 137, 54, 0.2);
+    color: #ed8936;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+table th,
+table td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+table th {
+    background: #1a1a28;
+    color: #667eea;
+    font-weight: 600;
+}
+
+table tr:hover {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.card {
+    background: #1a1a28;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.card h3 {
+    color: #667eea;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    margin: 30px 0;
+}
+
+.run-info {
+    background: #2d3748;
+    color: #68d391;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: monospace;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.run-info::before {
+    content: "$";
+    color: #a0aec0;
+}
+
+/* Syntax highlighting for arrays */
+.array-key {
+    color: #e06c75;
+}
+
+.array-value {
+    color: #98c379;
+}
+
+.array-bracket {
+    color: #abb2bf;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    .header,
+    .content,
+    .nav {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 1.4em;
+    }
+
+    .section {
+        padding: 15px;
+    }
+}
