@@ -202,7 +202,30 @@ SELECT age, COUNT(*) as count FROM users GROUP BY age;
 |------|---------|
 | `database_setup.sql` | Run this first to create database |
 | `db_config.php` | Database connection config |
-| `crud_practice.php` | All CRUD examples in one file |
+| `index.php` | Web-based CRUD interface |
+| `crud_practice.php` | CLI CRUD examples |
+
+---
+
+## 🚀 Running the Web App
+
+1. Start PHP's built-in server:
+   ```bash
+   php -S localhost:8000
+   ```
+
+2. Open `http://localhost:8000` in your browser
+
+---
+
+## 🔐 Database Credentials
+
+```
+Host:     localhost
+Database: day17_practice
+Username: data
+Password: data
+```
 
 ---
 

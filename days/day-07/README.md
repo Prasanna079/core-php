@@ -500,16 +500,13 @@ require_once __DIR__ . "/includes/functions.php";
 ```php
 <?php
 function formatTitle($title) {
-    $title = trim($title);
-    $title = strtolower($title);
-    $title = ucwords($title);
-    return $title;
+    return ucwords(strtolower(trim($title)));
 }
 
-function createSlug($text) {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
+function createSlug($name) {
+    $name = strtolower(trim($name));
+    $name = preg_replace('/[^a-z0-9]+/', '-', $name);
+    return trim($name, '-');
 }
 
 function truncate($text, $length = 100, $suffix = "...") {

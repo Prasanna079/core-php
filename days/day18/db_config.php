@@ -5,8 +5,8 @@
 
 $host = 'localhost';
 $dbname = 'day18_practice';
-$username = 'test';
-$password = 'test';
+$username = 'data';
+$password = 'data';
 
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

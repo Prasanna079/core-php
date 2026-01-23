@@ -306,6 +306,55 @@
         opacity: 1;
       }
 
+      .day-card a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .day-card .card-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border-color);
+        font-size: 0.85rem;
+        color: var(--php-purple);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .day-card:hover .card-link {
+        opacity: 1;
+      }
+
+      .card-link-arrow {
+        transition: transform 0.3s ease;
+      }
+
+      .day-card:hover .card-link-arrow {
+        transform: translateX(5px);
+      }
+
+      .day-card.unavailable {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .day-card.unavailable:hover {
+        transform: none;
+        border-color: var(--border-color);
+      }
+
+      .day-card.unavailable:hover::before {
+        opacity: 0;
+      }
+
+      .day-card.unavailable .card-link {
+        display: none;
+      }
+
       .day-number {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.8rem;
@@ -631,23 +680,31 @@
           </div>
         </div>
         <div class="days-grid">
-          <div class="day-card">
+          <div class="day-card" data-day="1" data-folder="day-01" onclick="navigateToDay(this)">
             <div class="day-number">Day 1</div>
             <ul>
               <li>What is PHP? How PHP works (client vs server)</li>
               <li>Install PHP, Apache, MySQL (XAMPP/MAMP)</li>
               <li>Run first <code>echo "Hello World";</code></li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="2" data-folder="day-02" onclick="navigateToDay(this)">
             <div class="day-number">Day 2</div>
             <ul>
               <li>PHP syntax</li>
               <li>Variables, constants</li>
               <li>Data types</li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="3" data-folder="day-03" onclick="navigateToDay(this)">
             <div class="day-number">Day 3</div>
             <ul>
               <li>Operators (arithmetic, comparison, logical)</li>
@@ -656,8 +713,12 @@
                 <code>switch</code>)
               </li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="4" data-folder="day-04" onclick="navigateToDay(this)">
             <div class="day-number">Day 4</div>
             <ul>
               <li>
@@ -666,47 +727,75 @@
               </li>
               <li><code>break</code>, <code>continue</code></li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="5" data-folder="day-05" onclick="navigateToDay(this)">
             <div class="day-number">Day 5</div>
             <ul>
               <li>Arrays (indexed, associative, multidimensional)</li>
               <li>Array functions</li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="6" data-folder="day-06" onclick="navigateToDay(this)">
             <div class="day-number">Day 6</div>
             <ul>
               <li>PHP functions</li>
               <li>Function parameters & return values</li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="7" data-folder="day-07" onclick="navigateToDay(this)">
             <div class="day-number">Day 7</div>
             <ul>
               <li>Built-in PHP functions (string, math, date)</li>
               <li><code>include</code> vs <code>require</code></li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="8" data-folder="day-08" onclick="navigateToDay(this)">
             <div class="day-number">Day 8</div>
             <ul>
               <li>Forms in PHP</li>
               <li><code>$_GET</code> and <code>$_POST</code></li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card">
+          <div class="day-card" data-day="9" data-folder="day-09" onclick="navigateToDay(this)">
             <div class="day-number">Day 9</div>
             <ul>
               <li>Form validation (required fields, email, length)</li>
               <li>Sanitization basics</li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
-          <div class="day-card mini-task">
+          <div class="day-card mini-task" data-day="10" data-folder="day-10" onclick="navigateToDay(this)">
             <div class="day-number">Day 10 – Mini Task</div>
             <ul>
               <li>Create a form → display submitted data safely</li>
             </ul>
+            <div class="card-link">
+              <span>View Lesson</span>
+              <span class="card-link-arrow">→</span>
+            </div>
           </div>
         </div>
       </section>

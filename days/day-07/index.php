@@ -63,7 +63,8 @@ echo "Replace: " . str_replace("World", "PHP", $text) . "\n";
 echo "Position of 'World': " . strpos($text, "World") . "\n";
 
 // Trim
-$spaced = "   Hello   ";
+$spaced = "   Hello  add.   ";
+echo "Trimmed: '" . $spaced . "'\n";
 echo "Trimmed: '" . trim($spaced) . "'\n";
 
 // Split & Join
@@ -135,10 +136,10 @@ function formatTitle($title) {
     return ucwords(strtolower(trim($title)));
 }
 
-function createSlug($text) {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
+function createSlug($name) {
+    $name = strtolower(trim($name));
+    $name = preg_replace('/[^a-z0-9]+/', '-', $name);
+    return trim($name, '-');
 }
 
 // Test

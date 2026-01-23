@@ -11,8 +11,8 @@ echo "=== PDO Connection Examples ===\n\n";
 // Database credentials
 $host = 'localhost';
 $dbname = 'day18_practice';
-$username = 'root';
-$password = '';
+$username = 'data';
+$password = 'data';
 
 // =====================
 // METHOD 1: Basic Connection

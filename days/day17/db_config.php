@@ -7,8 +7,8 @@
 
 $host = 'localhost';
 $dbname = 'day17_practice';
-$username = 'test';
-$password = 'test';
+$username = 'data';
+$password = 'data';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);

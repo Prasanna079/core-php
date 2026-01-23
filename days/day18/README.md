@@ -2,24 +2,24 @@
 
 ## ⏱️ Lesson Plan
 
-| Time | Topic |
-|------|-------|
-| 0-5 min | MySQLi vs PDO Overview |
-| 5-15 min | PDO Connection |
-| 15-30 min | Basic Queries with PDO |
+| Time      | Topic                           |
+| --------- | ------------------------------- |
+| 0-5 min   | MySQLi vs PDO Overview          |
+| 5-15 min  | PDO Connection                  |
+| 15-30 min | Basic Queries with PDO          |
 | 30-45 min | Prepared Statements (Security!) |
-| 45-50 min | Practice |
+| 45-50 min | Practice                        |
 
 ---
 
 ## 🔌 MySQLi vs PDO (5 min)
 
-| Feature | MySQLi | PDO (Recommended) |
-|---------|--------|-------------------|
-| Databases | MySQL only | MySQL, PostgreSQL, SQLite, etc. |
-| Style | Procedural & OOP | OOP only |
-| Named params | No | Yes `:name` |
-| Security | Good | Better |
+| Feature      | MySQLi           | PDO (Recommended)               |
+| ------------ | ---------------- | ------------------------------- |
+| Databases    | MySQL only       | MySQL, PostgreSQL, SQLite, etc. |
+| Style        | Procedural & OOP | OOP only                        |
+| Named params | No               | Yes `:name`                     |
+| Security     | Good             | Better                          |
 
 **We'll use PDO** - it's more flexible and secure!
 
@@ -28,12 +28,13 @@
 ## 🔗 PDO Connection (10 min)
 
 ### Basic Connection
+
 ```php
 <?php
 $host = 'localhost';
 $dbname = 'day17_practice';
-$username = 'root';
-$password = '';
+$username = 'data';
+$password = 'data';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -44,6 +45,7 @@ try {
 ```
 
 ### Recommended Connection (with options)
+
 ```php
 <?php
 $pdo = new PDO(
@@ -64,6 +66,7 @@ $pdo = new PDO(
 ## 📖 Basic Queries (15 min)
 
 ### SELECT - Fetch All
+
 ```php
 <?php
 require 'db_config.php';
@@ -79,6 +82,7 @@ foreach ($users as $user) {
 ```
 
 ### SELECT - Fetch One
+
 ```php
 <?php
 $stmt = $pdo->query("SELECT * FROM users LIMIT 1");
@@ -88,6 +92,7 @@ echo "Name: " . $user['name'];
 ```
 
 ### COUNT
+
 ```php
 <?php
 $stmt = $pdo->query("SELECT COUNT(*) FROM users");
@@ -101,6 +106,7 @@ echo "Total users: $count";
 ## 🔒 Prepared Statements - IMPORTANT! (15 min)
 
 ### ❌ NEVER Do This (SQL Injection!)
+
 ```php
 // DANGEROUS - Hackers can inject SQL!
 $name = $_GET['name'];
@@ -108,6 +114,7 @@ $sql = "SELECT * FROM users WHERE name = '$name'";
 ```
 
 ### ✅ ALWAYS Use Prepared Statements
+
 ```php
 // SAFE - Parameters are escaped automatically
 $stmt = $pdo->prepare("SELECT * FROM users WHERE name = ?");
@@ -116,6 +123,7 @@ $user = $stmt->fetch();
 ```
 
 ### Named Parameters (More Readable)
+
 ```php
 $stmt = $pdo->prepare("SELECT * FROM users WHERE name = :name AND age > :age");
 $stmt->execute([
@@ -126,6 +134,7 @@ $users = $stmt->fetchAll();
 ```
 
 ### INSERT with Prepared Statement
+
 ```php
 $stmt = $pdo->prepare("INSERT INTO users (name, email, age) VALUES (?, ?, ?)");
 $stmt->execute(['John', 'john@example.com', 30]);
@@ -136,6 +145,7 @@ echo "Created user with ID: $newId";
 ```
 
 ### UPDATE with Prepared Statement
+
 ```php
 $stmt = $pdo->prepare("UPDATE users SET age = ? WHERE id = ?");
 $stmt->execute([31, 1]);
@@ -144,6 +154,7 @@ echo "Updated rows: " . $stmt->rowCount();
 ```
 
 ### DELETE with Prepared Statement
+
 ```php
 $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
 $stmt->execute([5]);
@@ -219,11 +230,11 @@ $pdo->prepare("DELETE FROM users WHERE id = ?")->execute([1]);
 
 ## 📁 Files in This Directory
 
-| File | Purpose |
-|------|---------|
-| `database_setup.sql` | Create practice database |
-| `1_connection.php` | PDO connection examples |
-| `2_prepared.php` | PDO prepared statements (CRUD) |
+| File                 | Purpose                        |
+| -------------------- | ------------------------------ |
+| `database_setup.sql` | Create practice database       |
+| `1_connection.php`   | PDO connection examples        |
+| `2_prepared.php`     | PDO prepared statements (CRUD) |
 
 ---
 

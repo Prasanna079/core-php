@@ -21,8 +21,6 @@ switch ($method) {
         $response = ['success' => true, 'data' => $user];
         break;
 
-    
-
     // READ
     case 'GET':
         if ($id) {
