@@ -4,32 +4,32 @@ $day = isset($_GET['day']) ? (int)$_GET['day'] : null;
 
 // Map days to their folder names
 $dayFolders = [
-    1 => 'day-01',
-    2 => 'day-02',
-    3 => 'day-03',
-    4 => 'day-04',
-    5 => 'day-05',
-    6 => 'day-06',
-    7 => 'day-07',
-    8 => 'day-08',
-    9 => 'day-09',
-    10 => 'day-10',
-    11 => 'day11',
-    12 => 'day12',
-    13 => 'day13',
-    14 => 'day14',
-    15 => 'day15',
-    16 => 'day16',
-    17 => 'day17',
-    18 => 'day18',
-    19 => 'day19',
-    20 => 'day20',
+    1 => '01-hello-world',
+    2 => '02-variables-datatypes',
+    3 => '03-operators-conditionals',
+    4 => '04-loops',
+    5 => '05-arrays',
+    6 => '06-functions',
+    7 => '07-builtin-functions',
+    8 => '08-forms',
+    9 => '09-form-validation',
+    10 => '10-form-project',
+    11 => '11-file-handling',
+    12 => '12-file-upload',
+    13 => '13-sessions-cookies',
+    14 => '14-password-hashing',
+    15 => '15-login-system',
+    16 => '16-database-basics',
+    17 => '17-sql-crud',
+    18 => '18-php-mysql',
+    19 => '19-insert-data',
+    20 => '20-fetch-data',
 ];
 
 // If a day is requested, include that day's content
 if ($day && isset($dayFolders[$day])) {
     $folder = $dayFolders[$day];
-    $dayPath = __DIR__ . "/days/{$folder}";
+    $dayPath = __DIR__ . "/{$folder}";
 
     // Check for index.php or index.html
     if (file_exists("{$dayPath}/index.php")) {
@@ -53,7 +53,7 @@ if ($day && isset($dayFolders[$day])) {
 function isDayAvailable($dayNum, $dayFolders) {
     if (!isset($dayFolders[$dayNum])) return false;
     $folder = $dayFolders[$dayNum];
-    $path = __DIR__ . "/days/{$folder}";
+    $path = __DIR__ . "/{$folder}";
     return is_dir($path);
 }
 ?>
@@ -798,8 +798,8 @@ function isDayAvailable($dayNum, $dayFolders) {
           Want more resources to accelerate your learning?
         </p>
         <div class="cta-buttons">
-          <a href="days/database_setup.html" class="cta-btn">📚 Database Setup Guide</a>
-          <a href="days/setup_all_databases.sql" class="cta-btn">🗄️ Database Schema</a>
+          <a href="database_setup.html" class="cta-btn">📚 Database Setup Guide</a>
+          <a href="setup_all_databases.sql" class="cta-btn">🗄️ Database Schema</a>
         </div>
       </footer>
     </div>
