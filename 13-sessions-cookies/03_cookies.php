@@ -47,7 +47,7 @@ $themes = [
     'blue' => ['bg' => '#e3f2fd', 'text' => '#0d47a1', 'card' => '#bbdefb'],
 ];
 
-$theme = $themes[$currentTheme] ?? $themes['light'];
+$theme = $themes[$currentTheme] ?? $themes['blue'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

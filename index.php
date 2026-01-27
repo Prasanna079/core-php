@@ -1,6 +1,7 @@
 <?php
-// Get the requested day from URL
+// Get the requested day and file from URL
 $day = isset($_GET['day']) ? (int)$_GET['day'] : null;
+$file = isset($_GET['file']) ? $_GET['file'] : null;
 
 // Map days to their folder names
 $dayFolders = [
@@ -31,6 +32,19 @@ if ($day && isset($dayFolders[$day])) {
     $folder = $dayFolders[$day];
     $dayPath = __DIR__ . "/{$folder}";
 
+    // If a specific file is requested
+    if ($file) {
+        // Sanitize filename - only allow alphanumeric, underscore, hyphen, and .php extension
+        $file = basename($file);
+        if (preg_match('/^[a-zA-Z0-9_\-]+\.php$/', $file)) {
+            $filePath = "{$dayPath}/{$file}";
+            if (file_exists($filePath)) {
+                include $filePath;
+                exit;
+            }
+        }
+    }
+
     // Check for index.php or index.html
     if (file_exists("{$dayPath}/index.php")) {
         include "{$dayPath}/index.php";
@@ -55,6 +69,46 @@ function isDayAvailable($dayNum, $dayFolders) {
     $folder = $dayFolders[$dayNum];
     $path = __DIR__ . "/{$folder}";
     return is_dir($path);
+}
+
+// Get all PHP files in a day's folder
+function getDayFiles($dayNum, $dayFolders) {
+    if (!isset($dayFolders[$dayNum])) return [];
+    $folder = $dayFolders[$dayNum];
+    $path = __DIR__ . "/{$folder}";
+
+    if (!is_dir($path)) return [];
+
+    $files = glob("{$path}/*.php");
+    $fileList = [];
+
+    foreach ($files as $file) {
+        $filename = basename($file);
+        // Skip config files
+        if (strpos($filename, 'config') !== false) continue;
+
+        // Create a readable name from filename
+        $name = str_replace(['_', '-', '.php'], [' ', ' ', ''], $filename);
+        $name = ucwords($name);
+
+        // Mark index files specially
+        $isIndex = ($filename === 'index.php');
+
+        $fileList[] = [
+            'filename' => $filename,
+            'name' => $name,
+            'isIndex' => $isIndex
+        ];
+    }
+
+    // Sort: index.php first, then alphabetically
+    usort($fileList, function($a, $b) {
+        if ($a['isIndex']) return -1;
+        if ($b['isIndex']) return 1;
+        return strcmp($a['filename'], $b['filename']);
+    });
+
+    return $fileList;
 }
 ?>
 <!DOCTYPE html>
@@ -287,10 +341,8 @@ function isDayAvailable($dayNum, $dayFolders) {
         border-radius: 12px;
         padding: 1.25rem;
         transition: all 0.3s ease;
-        cursor: pointer;
         position: relative;
         overflow: hidden;
-        text-decoration: none;
         color: inherit;
         display: block;
       }
@@ -314,8 +366,6 @@ function isDayAvailable($dayNum, $dayFolders) {
 
       .day-card:hover {
         background: var(--bg-card-hover);
-        border-color: var(--php-purple);
-        transform: translateY(-3px);
       }
 
       .day-card:hover::before { opacity: 1; }
@@ -407,6 +457,39 @@ function isDayAvailable($dayNum, $dayFolders) {
       }
 
       .mini-task .day-number { color: var(--php-purple-bright); }
+
+      .file-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .file-link {
+        background: rgba(136, 146, 190, 0.1);
+        border: 1px solid var(--border-color);
+        padding: 0.4rem 0.85rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--php-purple-bright);
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .file-link:hover {
+        background: rgba(136, 146, 190, 0.2);
+        border-color: var(--php-purple);
+        color: var(--php-purple-bright);
+        transform: translateY(-1px);
+      }
+
+      .phase-2 .file-link:hover { border-color: var(--accent-green); color: var(--accent-green); }
+      .phase-3 .file-link:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+      .phase-4 .file-link:hover { border-color: var(--accent-pink); color: var(--accent-pink); }
+      .phase-5 .file-link:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
       .project-card {
         background: linear-gradient(
@@ -650,23 +733,27 @@ function isDayAvailable($dayNum, $dayFolders) {
 
           foreach ($phase1 as $dayNum => $dayData):
               $available = isDayAvailable($dayNum, $dayFolders);
+              $files = $available ? getDayFiles($dayNum, $dayFolders) : [];
               $class = $dayData['mini'] ?? false ? 'day-card mini-task' : 'day-card';
               $class .= $available ? '' : ' unavailable';
           ?>
-          <a href="<?= $available ? "?day={$dayNum}" : '#' ?>" class="<?= $class ?>">
+          <div class="<?= $class ?>">
             <div class="day-number"><?= $dayData['title'] ?></div>
             <ul>
               <?php foreach ($dayData['topics'] as $topic): ?>
               <li><?= $topic ?></li>
               <?php endforeach; ?>
             </ul>
-            <?php if ($available): ?>
-            <div class="card-link">
-              <span>View Lesson</span>
-              <span class="card-link-arrow">→</span>
+            <?php if ($available && !empty($files)): ?>
+            <div class="file-links">
+              <?php foreach ($files as $fileInfo): ?>
+              <a href="?day=<?= $dayNum ?>&file=<?= urlencode($fileInfo['filename']) ?>" class="file-link">
+                <?= htmlspecialchars($fileInfo['name']) ?>
+              </a>
+              <?php endforeach; ?>
             </div>
             <?php endif; ?>
-          </a>
+          </div>
           <?php endforeach; ?>
         </div>
       </section>
@@ -692,23 +779,27 @@ function isDayAvailable($dayNum, $dayFolders) {
 
           foreach ($phase2 as $dayNum => $dayData):
               $available = isDayAvailable($dayNum, $dayFolders);
+              $files = $available ? getDayFiles($dayNum, $dayFolders) : [];
               $class = $dayData['mini'] ?? false ? 'day-card mini-task' : 'day-card';
               $class .= $available ? '' : ' unavailable';
           ?>
-          <a href="<?= $available ? "?day={$dayNum}" : '#' ?>" class="<?= $class ?>">
+          <div class="<?= $class ?>">
             <div class="day-number"><?= $dayData['title'] ?></div>
             <ul>
               <?php foreach ($dayData['topics'] as $topic): ?>
               <li><?= $topic ?></li>
               <?php endforeach; ?>
             </ul>
-            <?php if ($available): ?>
-            <div class="card-link">
-              <span>View Lesson</span>
-              <span class="card-link-arrow">→</span>
+            <?php if ($available && !empty($files)): ?>
+            <div class="file-links">
+              <?php foreach ($files as $fileInfo): ?>
+              <a href="?day=<?= $dayNum ?>&file=<?= urlencode($fileInfo['filename']) ?>" class="file-link">
+                <?= htmlspecialchars($fileInfo['name']) ?>
+              </a>
+              <?php endforeach; ?>
             </div>
             <?php endif; ?>
-          </a>
+          </div>
           <?php endforeach; ?>
         </div>
       </section>
@@ -734,23 +825,27 @@ function isDayAvailable($dayNum, $dayFolders) {
 
           foreach ($phase3 as $dayNum => $dayData):
               $available = isDayAvailable($dayNum, $dayFolders);
+              $files = $available ? getDayFiles($dayNum, $dayFolders) : [];
               $class = $dayData['mini'] ?? false ? 'day-card mini-task' : 'day-card';
               $class .= $available ? '' : ' unavailable';
           ?>
-          <a href="<?= $available ? "?day={$dayNum}" : '#' ?>" class="<?= $class ?>">
+          <div class="<?= $class ?>">
             <div class="day-number"><?= $dayData['title'] ?></div>
             <ul>
               <?php foreach ($dayData['topics'] as $topic): ?>
               <li><?= $topic ?></li>
               <?php endforeach; ?>
             </ul>
-            <?php if ($available): ?>
-            <div class="card-link">
-              <span>View Lesson</span>
-              <span class="card-link-arrow">→</span>
+            <?php if ($available && !empty($files)): ?>
+            <div class="file-links">
+              <?php foreach ($files as $fileInfo): ?>
+              <a href="?day=<?= $dayNum ?>&file=<?= urlencode($fileInfo['filename']) ?>" class="file-link">
+                <?= htmlspecialchars($fileInfo['name']) ?>
+              </a>
+              <?php endforeach; ?>
             </div>
             <?php endif; ?>
-          </a>
+          </div>
           <?php endforeach; ?>
         </div>
       </section>

@@ -18,10 +18,6 @@ if (!is_dir($uploadDir)) {
 $message = '';
 $uploadedFile = '';
 
-// ============================================
-// PROCESS UPLOAD
-// ============================================
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if file was uploaded
@@ -151,11 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <div class="form-box">
-        <!--
-            IMPORTANT FORM REQUIREMENTS:
-            1. method="POST" - Files can't be sent via GET
-            2. enctype="multipart/form-data" - Required for files!
-        -->
         <form method="POST" enctype="multipart/form-data">
             <label for="myfile">Select a file to upload:</label>
             <input type="file" name="myfile" id="myfile" required>

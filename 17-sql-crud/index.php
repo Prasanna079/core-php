@@ -59,6 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // READ - Get all users
 $stmt = $pdo->query("SELECT * FROM users ORDER BY id");
 $users = $stmt->fetchAll();
+
+// Check if editing a user
+$editUser = null;
+if (isset($_GET['edit'])) {
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute(['id' => $_GET['edit']]);
+    $editUser = $stmt->fetch();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -250,47 +258,11 @@ $users = $stmt->fetchAll();
             opacity: 0.5;
         }
 
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .modal-content h3 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
         .btn-cancel {
             background: #e0e0e0;
             color: #333;
+            text-decoration: none;
+            display: inline-block;
         }
 
         @media (max-width: 600px) {
@@ -321,26 +293,32 @@ $users = $stmt->fetchAll();
             <div class="message <?= $messageType ?>"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
 
-        <!-- Create User Form -->
+        <!-- Create/Edit User Form -->
         <div class="card">
-            <h2>Add New User</h2>
+            <h2><?= $editUser ? 'Edit User' : 'Add New User' ?></h2>
             <form method="POST">
-                <input type="hidden" name="action" value="create">
+                <input type="hidden" name="action" value="<?= $editUser ? 'update' : 'create' ?>">
+                <?php if ($editUser): ?>
+                    <input type="hidden" name="id" value="<?= $editUser['id'] ?>">
+                <?php endif; ?>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Enter name">
+                        <input type="text" id="name" name="name" required placeholder="Enter name" value="<?= $editUser ? htmlspecialchars($editUser['name']) : '' ?>">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="Enter email">
+                        <input type="email" id="email" name="email" required placeholder="Enter email" value="<?= $editUser ? htmlspecialchars($editUser['email']) : '' ?>">
                     </div>
                     <div class="form-group">
                         <label for="age">Age</label>
-                        <input type="number" id="age" name="age" required placeholder="Enter age" min="1" max="150">
+                        <input type="number" id="age" name="age" required placeholder="Enter age" min="1" max="150" value="<?= $editUser ? htmlspecialchars($editUser['age']) : '' ?>">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success">Add User</button>
+                <button type="submit" class="btn <?= $editUser ? 'btn-primary' : 'btn-success' ?>"><?= $editUser ? 'Update User' : 'Add User' ?></button>
+                <?php if ($editUser): ?>
+                    <a href="index.php" class="btn btn-cancel">Cancel</a>
+                <?php endif; ?>
             </form>
         </div>
 
@@ -373,8 +351,8 @@ $users = $stmt->fetchAll();
                                 <td><?= htmlspecialchars($user['email']) ?></td>
                                 <td><?= htmlspecialchars($user['age']) ?></td>
                                 <td class="actions">
-                                    <button class="btn btn-edit" onclick="openEditModal(<?= htmlspecialchars(json_encode($user)) ?>)">Edit</button>
-                                    <form method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <a href="?edit=<?= $user['id'] ?>" class="btn btn-edit">Edit</a>
+                                    <form method="POST" style="display:inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="<?= $user['id'] ?>">
                                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -388,52 +366,5 @@ $users = $stmt->fetchAll();
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div class="modal" id="editModal">
-        <div class="modal-content">
-            <h3>Edit User</h3>
-            <form method="POST" id="editForm">
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="id" id="editId">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="editName">Name</label>
-                    <input type="text" id="editName" name="name" required>
-                </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="editEmail">Email</label>
-                    <input type="email" id="editEmail" name="email" required>
-                </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="editAge">Age</label>
-                    <input type="number" id="editAge" name="age" required min="1" max="150">
-                </div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openEditModal(user) {
-            document.getElementById('editId').value = user.id;
-            document.getElementById('editName').value = user.name;
-            document.getElementById('editEmail').value = user.email;
-            document.getElementById('editAge').value = user.age;
-            document.getElementById('editModal').classList.add('active');
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').classList.remove('active');
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('editModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEditModal();
-            }
-        });
-    </script>
 </body>
 </html>

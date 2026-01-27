@@ -21,10 +21,6 @@ $errors = [];
 $success = '';
 $uploadedFile = '';
 
-// ============================================
-// PROCESS UPLOAD WITH VALIDATION
-// ============================================
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if file was selected
@@ -47,11 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Step 3: Validate MIME type using finfo (SECURE method)
         // DON'T trust $_FILES['type'] - it can be faked!
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $detectedType = finfo_file($finfo, $file['tmp_name']);
+        if (empty($errors)) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $detectedType = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
 
-        if (!array_key_exists($detectedType, $allowedTypes)) {
-            $errors[] = "Invalid file type: $detectedType. Allowed: JPG, PNG, GIF, WebP";
+            if (!array_key_exists($detectedType, $allowedTypes)) {
+                $errors[] = "Invalid file type: $detectedType. Allowed: JPG, PNG, GIF, WebP";
+            }
         }
 
         // Step 4: Validate image dimensions (if it's an image)
