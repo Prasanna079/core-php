@@ -1,4 +1,9 @@
 <?php
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=14&file=$file" : $file;
+}
+
 $password = "mySecurePassword123";
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -81,9 +86,9 @@ $info = password_get_info($hash);
     </div>
 
     <p>
-        <a href="index.php">Home</a> |
-        <a href="02_register.php">Register</a> |
-        <a href="03_login.php">Login</a>
+        <a href="<?= url('index.php') ?>">Home</a> |
+        <a href="<?= url('02_register.php') ?>">Register</a> |
+        <a href="<?= url('03_login.php') ?>">Login</a>
     </p>
 </body>
 </html>

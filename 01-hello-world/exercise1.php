@@ -2,6 +2,11 @@
     // Exercise 1: Basic Output
     // Display personal info using echo statements
 
+    // Helper function for URLs that work both via router and directly
+    function url($file) {
+        return isset($_GET['day']) ? "?day=1&file=$file" : $file;
+    }
+
     echo "<!DOCTYPE html>
     <html lang='en'>
     <head>
@@ -92,10 +97,10 @@
     echo "</div>";
 
     echo "<nav>";
-    echo "<a href='index.php'>Home</a>";
-    echo "<a href='exercise1.php'>Exercise 1</a>";
-    echo "<a href='exercise2.php'>Exercise 2</a>";
-    echo "<a href='exercise3.php'>Exercise 3</a>";
+    echo "<a href='" . url('index.php') . "'>Home</a>";
+    echo "<a href='" . url('exercise1.php') . "'>Exercise 1</a>";
+    echo "<a href='" . url('exercise2.php') . "'>Exercise 2</a>";
+    echo "<a href='" . url('exercise3.php') . "'>Exercise 3</a>";
     echo "</nav>";
 
     echo "</body></html>";

@@ -5,7 +5,13 @@
  * Demonstrates all PDO fetch methods
  */
 
-require_once 'db_config.php';
+// Helper function for URLs that work both via router and directly
+function url($file, $params = '') {
+    $base = isset($_GET['day']) ? "?day=20&file=$file" : $file;
+    return $params ? ($base . (strpos($base, '?') !== false ? '&' : '?') . $params) : $base;
+}
+
+require_once __DIR__ . '/db_config.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +26,11 @@ require_once 'db_config.php';
         <h1>Basic Fetch Methods</h1>
 
         <div class="nav">
-            <a href="basic_fetch.php" class="active">Basic Fetch</a>
-            <a href="table_display.php">Table Display</a>
-            <a href="card_display.php">Card Display</a>
-            <a href="search_filter.php">Search & Filter</a>
-            <a href="pagination.php">Pagination</a>
+            <a href="<?= url('basic_fetch.php') ?>" class="active">Basic Fetch</a>
+            <a href="<?= url('table_display.php') ?>">Table Display</a>
+            <a href="<?= url('card_display.php') ?>">Card Display</a>
+            <a href="<?= url('search_filter.php') ?>">Search & Filter</a>
+            <a href="<?= url('pagination.php') ?>">Pagination</a>
         </div>
 
         <!-- 1. fetch() - Single Row -->

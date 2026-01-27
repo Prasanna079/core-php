@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=14&file=$file" : $file;
+}
+
 $usersFile = __DIR__ . '/users.json';
 
 function loadUsers($file) {
@@ -17,7 +22,7 @@ $error = '';
 if (isset($_GET['logout'])) {
     $_SESSION = [];
     session_destroy();
-    header('Location: 03_login.php');
+    header('Location: ' . url('03_login.php'));
     exit;
 }
 
@@ -42,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'username' => $foundUser['username'],
             'email' => $foundUser['email'],
         ];
-        header('Location: 03_login.php');
+        header('Location: ' . url('03_login.php'));
         exit;
     } else {
         $error = "Invalid username or password";
@@ -94,9 +99,9 @@ $isLoggedIn = isset($_SESSION['user']);
         </div>
 
 
-        <p><a href="02_register.php">Don't have an account? Register</a></p>
+        <p><a href="<?= url('02_register.php') ?>">Don't have an account? Register</a></p>
     <?php endif; ?>
 
-    <p><a href="index.php">Home</a></p>
+    <p><a href="<?= url('index.php') ?>">Home</a></p>
 </body>
 </html>

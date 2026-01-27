@@ -5,7 +5,13 @@
  * Display data with page navigation
  */
 
-require_once 'db_config.php';
+// Helper function for URLs that work both via router and directly
+function url($file, $params = '') {
+    $base = isset($_GET['day']) ? "?day=20&file=$file" : $file;
+    return $params ? ($base . (strpos($base, '?') !== false ? '&' : '?') . $params) : $base;
+}
+
+require_once __DIR__ . '/db_config.php';
 
 // Pagination settings
 $perPage = 10;
@@ -36,18 +42,20 @@ $users = $stmt->fetchAll();
 function renderPagination($currentPage, $totalPages, $range = 2) {
     if ($totalPages <= 1) return '';
 
+    $baseUrl = url('pagination.php');
+    $separator = strpos($baseUrl, '?') !== false ? '&' : '?';
     $html = '<div class="pagination">';
 
     // Previous button
     if ($currentPage > 1) {
-        $html .= "<a href=\"?page=" . ($currentPage - 1) . "\">« Prev</a>";
+        $html .= "<a href=\"{$baseUrl}{$separator}page=" . ($currentPage - 1) . "\">« Prev</a>";
     } else {
         $html .= "<span class=\"disabled\">« Prev</span>";
     }
 
     // First page
     if ($currentPage > $range + 1) {
-        $html .= "<a href=\"?page=1\">1</a>";
+        $html .= "<a href=\"{$baseUrl}{$separator}page=1\">1</a>";
         if ($currentPage > $range + 2) {
             $html .= "<span class=\"disabled\">...</span>";
         }
@@ -58,7 +66,7 @@ function renderPagination($currentPage, $totalPages, $range = 2) {
         if ($i == $currentPage) {
             $html .= "<span class=\"active\">$i</span>";
         } else {
-            $html .= "<a href=\"?page=$i\">$i</a>";
+            $html .= "<a href=\"{$baseUrl}{$separator}page=$i\">$i</a>";
         }
     }
 
@@ -67,12 +75,12 @@ function renderPagination($currentPage, $totalPages, $range = 2) {
         if ($currentPage < $totalPages - $range - 1) {
             $html .= "<span class=\"disabled\">...</span>";
         }
-        $html .= "<a href=\"?page=$totalPages\">$totalPages</a>";
+        $html .= "<a href=\"{$baseUrl}{$separator}page=$totalPages\">$totalPages</a>";
     }
 
     // Next button
     if ($currentPage < $totalPages) {
-        $html .= "<a href=\"?page=" . ($currentPage + 1) . "\">Next »</a>";
+        $html .= "<a href=\"{$baseUrl}{$separator}page=" . ($currentPage + 1) . "\">Next »</a>";
     } else {
         $html .= "<span class=\"disabled\">Next »</span>";
     }
@@ -113,12 +121,12 @@ function renderPagination($currentPage, $totalPages, $range = 2) {
         <h1>Pagination Example</h1>
 
         <div class="nav">
-            <a href="basic_fetch.php">Basic Fetch</a>
-            <a href="table_display.php">Table Display</a>
-            <a href="card_display.php">Card Display</a>
-            <a href="search_filter.php">Search & Filter</a>
-            <a href="sort_data.php">Sort Data</a>
-            <a href="pagination.php" class="active">Pagination</a>
+            <a href="<?= url('basic_fetch.php') ?>">Basic Fetch</a>
+            <a href="<?= url('table_display.php') ?>">Table Display</a>
+            <a href="<?= url('card_display.php') ?>">Card Display</a>
+            <a href="<?= url('search_filter.php') ?>">Search & Filter</a>
+            <a href="<?= url('sort_data.php') ?>">Sort Data</a>
+            <a href="<?= url('pagination.php') ?>" class="active">Pagination</a>
         </div>
 
         <!-- Page Info -->
@@ -161,7 +169,7 @@ function renderPagination($currentPage, $totalPages, $range = 2) {
                             </span>
                         </td>
                         <td>
-                            <a href="single_record.php?id=<?= $user['id'] ?>" class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">View</a>
+                            <a href="<?= url('single_record.php', 'id=' . $user['id']) ?>" class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">View</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

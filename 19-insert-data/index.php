@@ -1,3 +1,9 @@
+<?php
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=19&file=$file" : $file;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -139,21 +145,21 @@
             <span class="badge badge-beginner">Beginner</span>
             <h3>1. Basic Form to Database</h3>
             <p>Simple contact form that saves data directly to MySQL using prepared statements.</p>
-            <a href="1_basic_form.php">Start Lesson</a>
+            <a href="<?= url('1_basic_form.php') ?>">Start Lesson</a>
         </div>
 
         <div class="lesson-card">
             <span class="badge badge-intermediate">Intermediate</span>
             <h3>2. Form Validation</h3>
             <p>Server-side validation with error messages. Learn to validate required fields, email format, and string length.</p>
-            <a href="2_validation.php">Start Lesson</a>
+            <a href="<?= url('2_validation.php') ?>">Start Lesson</a>
         </div>
 
         <div class="lesson-card">
             <span class="badge badge-advanced">Advanced</span>
             <h3>3. User Registration</h3>
             <p>Complete registration system with password hashing, confirmation matching, and duplicate checking.</p>
-            <a href="3_registration.php">Start Lesson</a>
+            <a href="<?= url('3_registration.php') ?>">Start Lesson</a>
         </div>
 
         <div class="info" style="margin-top: 30px;">

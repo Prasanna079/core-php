@@ -2,6 +2,11 @@
 // IMPORTANT: session_start() must be called BEFORE any output!
 session_start();
 
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=13&file=$file" : $file;
+}
+
 // ========== SESSIONS ==========
 
 // Store data in session
@@ -106,6 +111,6 @@ $activeTheme = $themes[$theme] ?? $themes['light'];
     </div>
 
     <hr>
-    <p><a href="logout.php">Logout (destroy session)</a></p>
+    <p><a href="<?= url('logout.php') ?>">Logout (destroy session)</a></p>
 </body>
 </html>

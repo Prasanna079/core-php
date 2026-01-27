@@ -6,7 +6,13 @@
  * combined in a single practical example
  */
 
-require_once 'db_config.php';
+// Helper function for URLs that work both via router and directly
+function url($file, $params = '') {
+    $base = isset($_GET['day']) ? "?day=17&file=$file" : $file;
+    return $params ? ($base . (strpos($base, '?') !== false ? '&' : '?') . $params) : $base;
+}
+
+require_once __DIR__ . '/db_config.php';
 
 // Handle form submissions
 $message = '';
@@ -317,7 +323,7 @@ if (isset($_GET['edit'])) {
                 </div>
                 <button type="submit" class="btn <?= $editUser ? 'btn-primary' : 'btn-success' ?>"><?= $editUser ? 'Update User' : 'Add User' ?></button>
                 <?php if ($editUser): ?>
-                    <a href="index.php" class="btn btn-cancel">Cancel</a>
+                    <a href="<?= url('index.php') ?>" class="btn btn-cancel">Cancel</a>
                 <?php endif; ?>
             </form>
         </div>
@@ -351,7 +357,7 @@ if (isset($_GET['edit'])) {
                                 <td><?= htmlspecialchars($user['email']) ?></td>
                                 <td><?= htmlspecialchars($user['age']) ?></td>
                                 <td class="actions">
-                                    <a href="?edit=<?= $user['id'] ?>" class="btn btn-edit">Edit</a>
+                                    <a href="<?= url('index.php', 'edit=' . $user['id']) ?>" class="btn btn-edit">Edit</a>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="<?= $user['id'] ?>">

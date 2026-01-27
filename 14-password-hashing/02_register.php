@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=14&file=$file" : $file;
+}
+
 $usersFile = __DIR__ . '/users.json';
 
 function loadUsers($file) {
@@ -108,7 +113,7 @@ $users = loadUsers($usersFile);
         </div>
     </div>
 
-    <p><a href="03_login.php">Already have an account? Log in</a></p>
-    <p><a href="index.php">Home</a></p>
+    <p><a href="<?= url('03_login.php') ?>">Already have an account? Log in</a></p>
+    <p><a href="<?= url('index.php') ?>">Home</a></p>
 </body>
 </html>

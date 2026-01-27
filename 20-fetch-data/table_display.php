@@ -5,7 +5,13 @@
  * Professional table display with formatting
  */
 
-require_once 'db_config.php';
+// Helper function for URLs that work both via router and directly
+function url($file, $params = '') {
+    $base = isset($_GET['day']) ? "?day=20&file=$file" : $file;
+    return $params ? ($base . (strpos($base, '?') !== false ? '&' : '?') . $params) : $base;
+}
+
+require_once __DIR__ . '/db_config.php';
 
 // Fetch all users
 $stmt = $pdo->query("SELECT * FROM users ORDER BY created_at DESC");
@@ -58,11 +64,11 @@ $stats = $pdo->query("
         <h1>Users Table Display</h1>
 
         <div class="nav">
-            <a href="basic_fetch.php">Basic Fetch</a>
-            <a href="table_display.php" class="active">Table Display</a>
-            <a href="card_display.php">Card Display</a>
-            <a href="search_filter.php">Search & Filter</a>
-            <a href="pagination.php">Pagination</a>
+            <a href="<?= url('basic_fetch.php') ?>">Basic Fetch</a>
+            <a href="<?= url('table_display.php') ?>" class="active">Table Display</a>
+            <a href="<?= url('card_display.php') ?>">Card Display</a>
+            <a href="<?= url('search_filter.php') ?>">Search & Filter</a>
+            <a href="<?= url('pagination.php') ?>">Pagination</a>
         </div>
 
         <!-- Statistics -->
@@ -137,7 +143,7 @@ $stats = $pdo->query("
                         </td>
                         <td><?= formatDate($user['created_at']) ?></td>
                         <td>
-                            <a href="single_record.php?id=<?= $user['id'] ?>" class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">View</a>
+                            <a href="<?= url('single_record.php', 'id=' . $user['id']) ?>" class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">View</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

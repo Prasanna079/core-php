@@ -1,3 +1,9 @@
+<?php
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=1&file=$file" : $file;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,10 +102,10 @@
     </main>
 
     <nav>
-        <a href="index.php">Home</a>
-        <a href="exercise1.php">Exercise 1</a>
-        <a href="exercise2.php">Exercise 2</a>
-        <a href="exercise3.php">Exercise 3</a>
+        <a href="<?= url('index.php') ?>">Home</a>
+        <a href="<?= url('exercise1.php') ?>">Exercise 1</a>
+        <a href="<?= url('exercise2.php') ?>">Exercise 2</a>
+        <a href="<?= url('exercise3.php') ?>">Exercise 3</a>
     </nav>
 
     <footer>

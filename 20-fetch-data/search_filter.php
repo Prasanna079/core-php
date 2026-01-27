@@ -5,7 +5,13 @@
  * Implementing search, filter, and multiple conditions
  */
 
-require_once 'db_config.php';
+// Helper function for URLs that work both via router and directly
+function url($file, $params = '') {
+    $base = isset($_GET['day']) ? "?day=20&file=$file" : $file;
+    return $params ? ($base . (strpos($base, '?') !== false ? '&' : '?') . $params) : $base;
+}
+
+require_once __DIR__ . '/db_config.php';
 
 // Get filter parameters
 $search = trim($_GET['search'] ?? '');
@@ -123,11 +129,11 @@ $priceRange = $pdo->query("SELECT MIN(price) as min, MAX(price) as max FROM prod
         <h1>Search & Filter Products</h1>
 
         <div class="nav">
-            <a href="basic_fetch.php">Basic Fetch</a>
-            <a href="table_display.php">Table Display</a>
-            <a href="card_display.php">Card Display</a>
-            <a href="search_filter.php" class="active">Search & Filter</a>
-            <a href="pagination.php">Pagination</a>
+            <a href="<?= url('basic_fetch.php') ?>">Basic Fetch</a>
+            <a href="<?= url('table_display.php') ?>">Table Display</a>
+            <a href="<?= url('card_display.php') ?>">Card Display</a>
+            <a href="<?= url('search_filter.php') ?>" class="active">Search & Filter</a>
+            <a href="<?= url('pagination.php') ?>">Pagination</a>
         </div>
 
         <!-- Filter Form -->
@@ -177,7 +183,7 @@ $priceRange = $pdo->query("SELECT MIN(price) as min, MAX(price) as max FROM prod
 
                 <div class="filter-buttons" style="margin-left: auto;">
                     <button type="submit" class="btn btn-primary">Apply Filters</button>
-                    <a href="search_filter.php" class="btn btn-secondary">Reset</a>
+                    <a href="<?= url('search_filter.php') ?>" class="btn btn-secondary">Reset</a>
                 </div>
             </div>
         </form>
@@ -191,7 +197,7 @@ $priceRange = $pdo->query("SELECT MIN(price) as min, MAX(price) as max FROM prod
                 <?php endif; ?>
             </span>
             <?php if ($search || $category || $minPrice || $maxPrice || $inStock): ?>
-                <a href="search_filter.php">Clear all filters</a>
+                <a href="<?= url('search_filter.php') ?>">Clear all filters</a>
             <?php endif; ?>
         </div>
 

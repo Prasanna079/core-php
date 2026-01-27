@@ -1,4 +1,9 @@
 <?php
+// Helper function for URLs that work both via router and directly
+function url($file) {
+    return isset($_GET['day']) ? "?day=14&file=$file" : $file;
+}
+
 $password = "secret123";
 $hash = password_hash($password, PASSWORD_DEFAULT);
 $isCorrect = password_verify($password, $hash);
@@ -46,9 +51,9 @@ $isCorrect = password_verify($password, $hash);
     </div>
 
     <p>
-        <a href="01_hashing.php">Hashing Details</a> |
-        <a href="02_register.php">Register</a> |
-        <a href="03_login.php">Login</a>
+        <a href="<?= url('01_hashing.php') ?>">Hashing Details</a> |
+        <a href="<?= url('02_register.php') ?>">Register</a> |
+        <a href="<?= url('03_login.php') ?>">Login</a>
     </p>
 </body>
 </html>
