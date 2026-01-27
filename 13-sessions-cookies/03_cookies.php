@@ -190,7 +190,12 @@ $theme = $themes[$currentTheme] ?? $themes['light'];
         <?php else: ?>
             <table>
                 <tr><th>Name</th><th>Value</th></tr>
-                <?php foreach ($_COOKIE as $name => $value): ?>
+                <?php 
+                // Only show relevant cookies for this demo
+                $relevantCookies = ['PHPSESSID', 'theme', 'username'];
+                foreach ($_COOKIE as $name => $value): 
+                    if (!in_array($name, $relevantCookies)) continue;
+                ?>
                     <tr>
                         <td><?= htmlspecialchars($name) ?></td>
                         <td><?= htmlspecialchars($value) ?></td>
